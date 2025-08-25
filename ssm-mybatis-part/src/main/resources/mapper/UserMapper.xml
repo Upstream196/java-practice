@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace属性对应Mapper接口的全限定名-->
+<!--什么是全限定名？即包含完整路径的类名或接口名-->
+<mapper namespace="com.example.users.UserMapper">
+
+    <!-- 插入用户 -->
+    <insert id="insertUser" parameterType="com.example.users.User" useGeneratedKeys="true" keyProperty="id">
+        insert into user values (#{id},#{username},#{password},#{email})
+    </insert>
+
+    <!--查询所有用户-->
+    <select id="getAllUsers" resultType="User">
+        select * from user
+    </select>
+
+    <select id="getUserById" resultType="com.example.users.User">
+        select * from user where id = #{id}
+    </select>
+    <select id="getUserByUsername" resultType="com.example.users.User">
+       select * from user where username=#{username} and password=#{password} and email=#{email}
+    </select>
+
+    <select id="getUserByUsername1"  resultType="com.example.users.User" >
+        select * from user where username=#{username} and password=#{password} and email=#{email}
+    </select>
+
+
+
+
+    <!-- 更新用户 -->
+    <update id="updateUser" parameterType="User">
+        update user set password='111',username='222'
+        where username=#{username} and password=#{password}
+    </update>
+
+    <update id="updateUser1">
+        update user set password=#{newPassword},username=#{newUsername},email=#{newemail}
+        where username=#{oldUsername} and password=#{oldPassword} and email=#{oldemail}
+    </update>
+
+    <!-- 删除用户 -->
+    <delete id="deleterUser" >
+        delete from user where username=#{username} and email=#{email}
+    </delete>
+
+
+
+</mapper>   

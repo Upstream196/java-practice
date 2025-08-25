@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!--1.单个构造参数注入-->
+    <bean id="userDao" class="com.example.ioc_02.UserDao" />
+
+    <bean id="userService" class="com.example.ioc_02.UserService">
+        <constructor-arg ref="userDao"/>
+    </bean>
+
+<!--2.多个构造参数注入-->
+    <!--使用名称填写构造参数的名字-->
+    <!--value直接填值，ref需引用其他的bean id-->
+    <bean id="userService2" class="com.example.ioc_02.UserService">
+        <constructor-arg name="age" value="18"/>
+        <constructor-arg name="name" value="张三"/>
+        <constructor-arg name="userDao" ref="userDao"/>
+    </bean>
+
+<!--3.触发setter方法进行注入-->
+    <bean id="movieFinder" class="com.example.ioc_02.MovieFinder" />
+    <bean id="simpleMovieLister" class="com.example.ioc_02.SimpleMovieLister">
+    <property name="movieName" value="lisi"/>
+    <property name="movieFinder" value="zhansan"/>
+    </bean>
+</beans>

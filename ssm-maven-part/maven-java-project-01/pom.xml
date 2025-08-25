@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+<!--变量声明与引用-->
+<!--可在外部使用外部声明来定义产品(依赖)的版本号，便于后续管理
+<properties>
+  <技术名.version>版本号</技术名.version>
+<properties/>-->
+
+<!--引用方式${变量名}-->
+    
+<!--例子-->
+<properties>
+        <test.version>1.0.0</test.version>
+    </properties>
+
+    <groupId>com.example</groupId>
+    <artifactId>maven-java-project-01</artifactId>
+    <version>${test.version}</version>
+
+
+</project>

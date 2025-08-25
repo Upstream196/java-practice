@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--配置文件-->
+<!--将HappyComponent放入spring容器中-->
+<!--1.无参函数实例化组件，并进行ioc配置-->
+    <bean id="HappyComponent" class="com.example.ioc_01.HappyComponent"/>
+
+<!--2.静态工厂进行ioc配置-->
+    <bean id="clientService" class="com.example.ioc_01.ClientService" factory-method="createClientService" />
+
+<!--3.非静态工厂进行ioc配置-->
+    <bean id="defaultServiceLocator" class="com.example.ioc_01.DefaultServiceLocator" />
+    <bean id="clientService2" factory-bean="defaultServiceLocator" factory-method="createClientServiceInstance"/>
+</beans>

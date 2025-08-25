@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.ScheduleMapper">
+    <insert id="insert">
+        insert into schedule (title,completed) values (#{title},#{completed});
+    </insert>
+
+    <update id="update">
+        update  schedule set title=#{title},completed=#{completed}
+        where id=#{id}
+    </update>
+
+    <select id="queryList" resultType="com.example.pojo.Schedule">
+        select * from schedule
+    </select>
+
+    <delete id="deleteById">
+        delete from schedule where id=#{id}
+    </delete>
+
+
+    <!--  查询单条对象信息  -->
+    <select id="findById" resultType="com.example.pojo.Schedule">
+    select * from schedule where id=#{id}
+
+    </select>
+
+    <!-- 查询未完成的日程   -->
+    <select id="findIncompleteSchedules" resultType="com.example.pojo.Schedule">
+        select * from schedule where completed=false
+    </select>
+    <!--  分页模糊查询  -->
+    <select id="findByTitleLike" resultType="com.example.pojo.Schedule">
+        select * from schedule where title like concat('%',#{keyword},'%')
+    </select>
+
+
+    <!--  批量删除   -->
+    <delete id="deleteBatch">
+        delete from schedule
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--  批量插入  -->
+    <insert id="insertBatch">
+        insert into schedule (title,completed)
+        values
+            <foreach collection="list" item="s" separator=",">
+                (#{s.title},#{s.completed})
+            </foreach>
+    </insert>
+
+    <!--  批量修改  -->
+    <update id="updateBatch">
+        update schedule
+        set
+        title= case id
+       <foreach collection="list" item="s">
+            when #{s.id} then #{s.title}
+       </foreach>
+        end,
+        completed= case id
+           <foreach collection="list" item="s">
+               when #{s.id} then #{s.completed}
+           </foreach>
+           end
+           where id in
+           <foreach collection="list" item="s" open="(" separator="," close=")">
+               #{s.id}
+           </foreach>
+    </update>
+
+    <!--  多条件查询  -->
+    <select id="findByConditions" resultType="com.example.pojo.Schedule">
+        select * from schedule
+        <where>
+            <if test="cond.title !=null and cond.title !=''">
+                and title like concat('%',#{cond.title},'%')
+            </if>
+
+        <if test="cond.completed !=null">
+            and completed=#{cond.completed}
+        </if>
+
+        <if test="cond.id !=null">
+            and id=#{cond.id}
+        </if>
+
+            <if test="cond.completed1 !=null">
+                and completed &gt;= #{con.completed1}
+            </if>
+
+            <if test="cond.completed2 !=null">
+                and completed  &lt;=  #{con.completed2}
+            </if>
+
+        </where>
+
+    </select>
+
+</mapper>   

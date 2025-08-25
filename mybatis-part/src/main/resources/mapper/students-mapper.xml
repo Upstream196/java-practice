@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.StudentsMapper">
+
+<!--  id为对应接口的方法名，parameterType为接口方法的返回值类型 -->
+    <insert id="insertStudent" parameterType="com.example.Students" useGeneratedKeys="true" keyProperty="id">
+        insert INTO students VALUES (#{id},#{name},#{gender},#{age},#{classes})
+    </insert>
+
+    <delete id="deleteById" parameterType="com.example.Students">
+      delete from students where id=#{id}
+    </delete>
+
+    <update id="updateStudent" parameterType="com.example.Students">
+     update students set name=#{name},age=#{age},gender=#{gender}
+     where id=#{id}
+    </update>
+
+    <select id="selectById" resultType="com.example.Students">
+     select * from students
+    </select>
+
+    <select id="selectUsersByMap" resultType="com.example.Students">
+        select * from ${tableName1}
+        <trim prefix="where" prefixOverrides="and|or"  >
+           <if test="username !=null">
+               and name=#{username}
+           </if>
+
+            <if test="age !=null">
+                 age=#{age}
+            </if>
+        </trim>
+<!--       <where>-->
+<!--        <choose>-->
+<!--            <when test="username !=null and username !=''">-->
+<!--                and name = #{username}-->
+<!--            </when>-->
+<!--            <when test="age !=null">-->
+<!--                and age = #{age}-->
+<!--            </when>-->
+<!--            <otherwise></otherwise>-->
+<!--        </choose>-->
+<!--       </where>-->
+    </select>
+
+    <select id="selectUsersByNameList" resultType="com.example.Students">
+        select * from ${tableName}
+        <where>
+             name in
+            <foreach item="item" collection="list" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+
+    </select>
+    <select id="selectAllStudents" resultType="com.example.Students">
+        select * from students
+        <where>
+            <if test="name !=null and name !=''">
+                name=#{name}
+            </if>
+            <if test="age !=null ">
+                and age=#{age}
+            </if>
+        </where>
+
+
+    </select>
+
+
+
+    <update id="updateStudent1" parameterType="com.example.StudentsMapper">
+        update students
+        <trim prefix="set" suffixOverrides=",">
+          <trim prefix="name =case id" suffixOverrides="end,">
+              <foreach collection="studens" item="item" >
+                  when #{id} then #{name} 
+              </foreach>
+          </trim>
+       where id in
+        <foreach collection="studens" item="item" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        </trim>
+    </update>
+    
+<!--    <update id="updateStudent2" parameterType="com.example.StudentsMapper">-->
+<!--        update students-->
+<!--        <trim prefix="set" prefixOverrides=",">-->
+<!--            <trim prefix="name =case id" suffixOverrides="end,">-->
+
+<!--            <foreach collection="students" item="s">-->
+<!--                when #{s.id} then #{s.name}-->
+<!--            </foreach>-->
+<!--            </trim>-->
+<!--        </trim>-->
+<!--        where id in-->
+<!--        <foreach collection="students" item="s" open="(" separator="," close=")">-->
+<!--            #{s.id}-->
+<!--        </foreach>-->
+<!--    </update>-->
+
+    <update id="updateStudent2">
+        UPDATE students
+        <trim prefix="set"  prefixOverrides="," suffixOverrides=",">
+            <trim prefix="name = CASE id" suffix="END,">
+                <foreach collection="students" item="s">
+                    WHEN #{s.id} THEN #{s.name}
+                </foreach>
+            </trim>
+        <trim prefix="age =case id" suffix="end,">
+            <foreach collection="students" item="s">
+                when #{s.id} then #{s.age}
+            </foreach>
+        </trim>
+        </trim>
+        WHERE id IN
+        <foreach collection="students" item="s" open="(" separator="," close=")">
+            #{s.id}
+        </foreach>
+    </update>
+
+
+    <update id="batchUpdateStudent" parameterType="com.example.StudentsMapper">
+        <foreach collection="students" item="s" separator=";">
+            update  students
+            set name=#{s.name},
+                age=#{s.age}
+                where id=#{s.id}
+        </foreach>
+    </update>
+</mapper>   

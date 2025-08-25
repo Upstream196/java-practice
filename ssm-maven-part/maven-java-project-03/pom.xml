@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>maven-java-project-03</artifactId>
+    <version>1.0.1</version>
+    <packaging>pom</packaging>
+<!--
+设置项目的编译和构建属性
+1.使用 Java 17 进行编译
+2.生成兼容 Java 17 的字节码
+3.并正确处理 UTF-8 编码的源代码文件
+-->
+    <!--  <properties> 集中定义版本号-->
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.builde.sourceEncoding>UTF-8</project.builde.sourceEncoding>
+        <spring.version>6.0.6</spring.version>
+        <jackson.version>2.15.0</jackson.version>
+        <shiro.version>1.10.1</shiro.version>
+        <common-io.version>2.11.0</common-io.version>
+    </properties>
+
+    <modules>
+        <module>user-service</module>
+        <module>order-service</module>
+        <module>common-service</module>
+    </modules>
+
+
+
+
+    <dependencyManagement>
+        <dependencies>
+            <!--用户依赖-->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                    <version>${spring.version}</version>
+                </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+<!--订单服务-->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-core</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+<!--通用模块-->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${common-io.version}</version>
+            </dependency>
+            <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>common-service</artifactId>
+            <version>1.0.1</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+</project>

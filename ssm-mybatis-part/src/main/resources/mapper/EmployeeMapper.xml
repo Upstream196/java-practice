@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace属性对应Mapper接口的全限定名-->
+<!--什么是全限定名？即包含完整路径的类名或接口名-->
+<mapper namespace="com.example.EmployeeMapper">
+
+<!--id名称必须与Mapper接口中的方法名一致 ——即与namespace对应的接口方法-->
+<!-- resultType指定 SQL 查询结果应该转换为哪个 Java 类型的对象  -->
+    <select id="queryById" resultType="com.example.Employee">
+      select id,name,gender,age,classes from students where id=#{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from students where id=#{id}
+    </delete>
+</mapper>
